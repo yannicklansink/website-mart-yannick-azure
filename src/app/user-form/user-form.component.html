@@ -1,0 +1,26 @@
+<p>user-form works!</p>
+<!-- app.component.html -->
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+  <label for="firstName">First Name:</label>
+  <input id="firstName" formControlName="firstName" type="text" />
+  <br />
+
+  <label for="lastName">Last Name:</label>
+  <input id="lastName" formControlName="lastName" type="text" />
+  <br />
+
+  <label for="licensePlate">License Plate:</label>
+  <input id="licensePlate" formControlName="licensePlate" type="text" />
+  <br />
+
+  <label for="picture">Picture:</label>
+  <input
+    id="picture"
+    formControlName="picture"
+    type="file"
+    (change)="onFileChange($event)"
+  />
+  <br />
+
+  <button type="submit">Submit</button>
+</form>
