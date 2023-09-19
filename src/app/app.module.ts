@@ -12,6 +12,7 @@ import {
 } from '@azure/msal-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { SuccesspaginaComponent } from './successpagina/successpagina.component';
+import { LoggingService } from './services/logging.service';
 
 export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication({
@@ -39,6 +40,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
       useFactory: MSALInstanceFactory,
     },
     MsalService,
+    LoggingService
   ],
   bootstrap: [AppComponent],
 })
