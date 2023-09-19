@@ -5,11 +5,13 @@ import { MsalService } from '@azure/msal-angular';
   selector: 'app-root',
   template: `
     <div>Hello {{ value }}</div>
-    <a routerLink="/succespagina">Dashboard</a>
+    <a routerLink="/userform">Form</a>
     <div></div>
     <div *ngIf="!isAuthenticated">
       <!-- Show when not authenticated -->
-      <button (click)="login()">Login with Azure AD</button>
+      <button (click)="login()" [disabled]="isLoggingIn">
+        Login with Azure AD
+      </button>
     </div>
     <div *ngIf="isAuthenticated">
       <!-- Show when authenticated -->
@@ -32,11 +34,20 @@ export class AppComponent {
       this.msalService.instance.getAllAccounts().length > 0;
   }
 
+  isLoggingIn = false;
+
   login() {
-    this.msalService.loginPopup().subscribe((response) => {
-      this.checkAuthentication();
-      console.log(response);
-    });
+    this.isLoggingIn = true;
+    this.msalService.loginPopup().subscribe(
+      (response) => {
+        this.checkAuthentication();
+        this.isLoggingIn = false;
+      },
+      (error) => {
+        console.error(error);
+        this.isLoggingIn = false;
+      }
+    );
   }
 
   logout() {

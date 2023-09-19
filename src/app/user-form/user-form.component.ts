@@ -29,11 +29,28 @@ export class UserFormComponent implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       licensePlate: ['', Validators.required],
-      // picture: [null, Validators.required],
     });
   }
 
+  selectedFile: File = null;
+
+  onFileChange(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      const base64String = (reader.result as string).split(',')[1];
+      this.userForm.get('picture').setValue(base64String);
+    };
+  }
+
   onSubmit() {
+    const formData = new FormData();
+    formData.append('firstName', this.userForm.get('firstName').value);
+    formData.append('lastName', this.userForm.get('lastName').value);
+    formData.append('licensePlate', this.userForm.get('licensePlate').value);
+    formData.append('picture', this.selectedFile);
+
     // const headers = new HttpHeaders().set(
     //   'Authorization',
     //   `Bearer ${jouwTokenHier}`
@@ -41,7 +58,7 @@ export class UserFormComponent implements OnInit {
     console.log('test', this.userForm.value);
     this.http
       // .post('/api/HttpTrigger', this.userForm.value, { headers })
-      .post('/api/HttpTrigger', this.userForm.value)
+      .post('/api/HttpTrigger', formData)
       .subscribe(
         (response: any) => {
           //log success
@@ -55,12 +72,5 @@ export class UserFormComponent implements OnInit {
 
         }
       );
-  }
-
-  onFileChange(event: any) {
-    const file = event.target.files[0];
-    this.userForm.patchValue({
-      picture: file,
-    });
   }
 }
