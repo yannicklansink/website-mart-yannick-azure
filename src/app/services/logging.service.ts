@@ -11,7 +11,7 @@ export class LoggingService {
     this.appInsights = new ApplicationInsights({
       config: {
         instrumentationKey: '0b8ecec6-5f79-4683-9d59-24aec6b49544',
-        enableAutoRouteTracking: true // option to log all route changes
+        enableAutoRouteTracking: true // option to log all route changes lalala
       }
     });
     this.appInsights.loadAppInsights();
