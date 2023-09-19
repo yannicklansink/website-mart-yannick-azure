@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { LoggingService } from '../services/logging.service';
 
 @Component({
-  selector: 'app-user-form-component',
+  selector: 'app-user-form-conmponent',
   templateUrl: './user-form.component.html',
   styleUrls: ['./user-form.component.css'],
 })
@@ -19,16 +19,16 @@ export class UserFormComponent implements OnInit {
     private router: Router,
     private loggingService: LoggingService
   ) {
-    this.http
-      .get('/api/HttpTrigger')
-      .subscribe((resp: any) => (this.message = resp.text));
+    // this.http
+    //   .get('/api/HttpTrigger')
+    //   .subscribe((resp: any) => (this.message = resp.text));
   }
 
   ngOnInit(): void {
     this.userForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      licensePlate: ['', Validators.required],
+      firstName: [''],
+      lastName: [''],
+      licensePlate: [''],
     });
   }
 
@@ -45,31 +45,29 @@ export class UserFormComponent implements OnInit {
   }
 
   onSubmit() {
-    const formData = new FormData();
-    formData.append('firstName', this.userForm.get('firstName').value);
-    formData.append('lastName', this.userForm.get('lastName').value);
-    formData.append('licensePlate', this.userForm.get('licensePlate').value);
-    formData.append('picture', this.selectedFile);
+    const payload = {
+      ...this.userForm.value,
+      picture: this.selectedFile, // Assuming this is a base64 string
+    };
 
-    // const headers = new HttpHeaders().set(
-    //   'Authorization',
-    //   `Bearer ${jouwTokenHier}`
-    // );
-    console.log('test', this.userForm.value);
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
     this.http
-      // .post('/api/HttpTrigger', this.userForm.value, { headers })
-      .post('/api/HttpTrigger', formData)
+      .post(
+        'https://apibackendmartyannick.azurewebsites.net/api/v1/users',
+        JSON.stringify(payload),
+        {
+          headers,
+        }
+      )
       .subscribe(
         (response: any) => {
-          //log success
-          this.loggingService.logEvent("Nieuw persoon toegevoegd.");
-          // Ga naar de succespagina of toon een succesmelding
+          this.message = 'Successfully talked to backend';
+          this.loggingService.logEvent('Nieuw persoon toegevoegd.');
           this.router.navigate(['/succespagina']);
         },
         (error) => {
-          //log event
-          console.log("error, logging to events");
-
+          console.log('error, logging to events');
         }
       );
   }
