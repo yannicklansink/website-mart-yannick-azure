@@ -19,7 +19,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
       clientId: 'fa0f1aa9-eea3-4802-9229-83e4c60c64ea',
       authority:
         'https://login.microsoftonline.com/7ed5147d-c6ee-4886-9e71-4a91ce3087ba',
-      redirectUri: 'http://localhost:4200',
+      redirectUri: 'https://agreeable-meadow-0c593c303.3.azurestaticapps.net',
     },
   });
 }
