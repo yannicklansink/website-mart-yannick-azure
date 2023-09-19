@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-user-form-component',
@@ -8,8 +9,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class UserFormComponent implements OnInit {
   userForm: FormGroup;
+  message = '';
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private http: HttpClient) {
+    this.http
+      .get('/api/HttpTrigger')
+      .subscribe((resp: any) => (this.message = resp.text));
+  }
 
   ngOnInit(): void {
     this.userForm = this.fb.group({
