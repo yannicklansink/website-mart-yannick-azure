@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { LoggingService } from '../services/logging.service';
 
 @Component({
   selector: 'app-user-form-component',
@@ -15,7 +16,8 @@ export class UserFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private loggingService: LoggingService
   ) {
     this.http
       .get('/api/HttpTrigger')
@@ -59,11 +61,15 @@ export class UserFormComponent implements OnInit {
       .post('/api/HttpTrigger', formData)
       .subscribe(
         (response: any) => {
+          //log success
+          this.loggingService.logEvent("Nieuw persoon toegevoegd.");
           // Ga naar de succespagina of toon een succesmelding
           this.router.navigate(['/succespagina']);
         },
         (error) => {
-          // Foutafhandeling
+          //log event
+          console.log("error, logging to events");
+
         }
       );
   }
