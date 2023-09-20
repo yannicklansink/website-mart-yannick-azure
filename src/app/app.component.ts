@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { MsalService } from '@azure/msal-angular';
+import { AuthenticationResult, InteractionType } from '@azure/msal-browser';
+import { AuthServiceService } from './services/auth-service.service';
 
 @Component({
   selector: 'app-root',
@@ -16,14 +18,17 @@ import { MsalService } from '@azure/msal-angular';
       <button (click)="logout()">Logout</button>
     </div>
     <router-outlet></router-outlet>
-    <!-- <app-user-form-component></app-user-form-component> -->
   `,
 })
 export class AppComponent {
   value = 'World';
   isAuthenticated = false;
+  accessToken: string;
 
-  constructor(private msalService: MsalService) {
+  constructor(
+    private msalService: MsalService,
+    private authService: AuthServiceService
+  ) {
     this.checkAuthentication();
   }
 
@@ -34,8 +39,10 @@ export class AppComponent {
 
   login() {
     this.msalService.loginPopup().subscribe(
-      (response) => {
+      (response: AuthenticationResult) => {
         this.checkAuthentication();
+        console.log('login method: ', response.accessToken);
+        this.authService.setAccessToken(response.accessToken);
       },
       (error) => {
         console.error(error);

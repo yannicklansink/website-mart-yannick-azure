@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { LoggingService } from '../services/logging.service';
+import { AuthServiceService } from '../services/auth-service.service';
 
 @Component({
   selector: 'app-user-form-conmponent',
@@ -12,12 +13,14 @@ import { LoggingService } from '../services/logging.service';
 export class UserFormComponent implements OnInit {
   userForm: FormGroup;
   message = '';
+  private currentToken: string = null;
 
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
     private router: Router,
-    private loggingService: LoggingService
+    private loggingService: LoggingService,
+    private authService: AuthServiceService
   ) {
     // this.http
     //   .get('/api/HttpTrigger')
@@ -25,6 +28,11 @@ export class UserFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.authService.currentAccessToken.subscribe((token) => {
+      if (token) {
+        this.currentToken = token;
+      }
+    });
     this.userForm = this.fb.group({
       firstName: [''],
       lastName: [''],
@@ -45,12 +53,24 @@ export class UserFormComponent implements OnInit {
   }
 
   onSubmit() {
+    if (!this.currentToken) {
+      console.log('No token available');
+      this.message = 'there is no current token';
+      return;
+    }
+    console.log('current token: ', this.currentToken);
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', `Bearer ${this.currentToken}`);
+
+    // Your existing POST request
+
     const payload = {
       ...this.userForm.value,
       picture: this.selectedFile, // Assuming this is a base64 string
     };
 
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    // const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     this.http
       .post(

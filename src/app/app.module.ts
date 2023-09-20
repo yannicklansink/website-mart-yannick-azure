@@ -40,7 +40,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
       useFactory: MSALInstanceFactory,
     },
     MsalService,
-    LoggingService
+    LoggingService,
   ],
   bootstrap: [AppComponent],
 })
