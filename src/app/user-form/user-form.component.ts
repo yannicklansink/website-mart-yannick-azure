@@ -14,6 +14,7 @@ export class UserFormComponent implements OnInit {
   userForm: FormGroup;
   message = '';
   private currentToken: string = null;
+  selectedFile: File = null;
 
   constructor(
     private fb: FormBuilder,
@@ -40,24 +41,16 @@ export class UserFormComponent implements OnInit {
     });
   }
 
-  selectedFile: File = null;
-
   onFileChange(event) {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      const base64String = (reader.result as string).split(',')[1];
-      this.userForm.get('picture').setValue(base64String);
-    };
+    this.selectedFile = <File>event.target.files[0];
   }
 
   onSubmit() {
-    if (!this.currentToken) {
-      console.log('No token available');
-      this.message = 'there is no current token';
-      return;
-    }
+    // if (!this.currentToken) {
+    //   console.log('No token available');
+    //   this.message = 'there is no current token';
+    //   return;
+    // }
     console.log('current token: ', this.currentToken);
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
@@ -65,20 +58,25 @@ export class UserFormComponent implements OnInit {
 
     // Your existing POST request
 
-    const payload = {
-      ...this.userForm.value,
-      picture: this.selectedFile, // Assuming this is a base64 string
-    };
+    const formData = new FormData();
+    formData.append('firstName', this.userForm.get('firstName').value);
+    formData.append('lastName', this.userForm.get('lastName').value);
+    formData.append('licensePlate', this.userForm.get('licensePlate').value);
+    if (this.selectedFile != null) {
+      formData.append('picture', this.selectedFile, this.selectedFile.name);
+    }
 
-    // const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    // = new HttpHeaders().set('Content-Type', 'application/json');
 
     this.http
       .post(
-        'https://apibackendmartyannick.azurewebsites.net/api/v1/users',
-        JSON.stringify(payload),
-        {
-          headers,
-        }
+        // 'https://apibackendmartyannick.azurewebsites.net/api/v1/users',
+        'https://localhost:7056/api/v1/users',
+        // JSON.stringify(payload),
+        formData
+        // {
+        //   headers,
+        // }
       )
       .subscribe(
         (response: any) => {
