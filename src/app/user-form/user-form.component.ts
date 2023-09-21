@@ -12,7 +12,8 @@ import { AuthServiceService } from '../services/auth-service.service';
 })
 export class UserFormComponent implements OnInit {
   userForm: FormGroup;
-  message = '';
+  analysisPicture = '';
+  autoMerk = '';
   private currentToken: string = null;
   selectedFile: File = null;
 
@@ -70,9 +71,9 @@ export class UserFormComponent implements OnInit {
 
     this.http
       .post(
-        // 'https://apibackendmartyannick.azurewebsites.net/api/v1/users',
+        'https://apibackendmartyannick.azurewebsites.net/api/v1/users',
         // 'https://localhost:7056/api/v1/users',
-        'https://localhost:2469/api/v1/users',
+        // 'https://localhost:2469/api/v1/users',
         // JSON.stringify(payload),
         formData
         // {
@@ -81,11 +82,17 @@ export class UserFormComponent implements OnInit {
       )
       .subscribe(
         (response: any) => {
-          this.message = response.message;
-          console.log(this.message);
-          this.loggingService.logEvent(this.message);
+          this.analysisPicture = response.analysis;
+          this.autoMerk = response.autoMerk;
+          console.log(this.analysisPicture);
+          this.loggingService.logEvent(this.analysisPicture);
           this.loggingService.logEvent('Nieuw persoon toegevoegd.');
-          this.router.navigate(['/succespagina'], {queryParams: {message: this.message}});
+          this.router.navigate(['/succespagina'], {
+            queryParams: {
+              analysisPicture: this.analysisPicture,
+              autoMerk: this.autoMerk,
+            },
+          });
         },
         (error) => {
           console.log('error, logging to events');

@@ -1,2 +1,6 @@
 <p>Success!</p>
-<p>Ai gegenereerde Foto Analyse: {{this.message}}</p>
+<p *ngIf="this.analysisPicture">
+  Ai gegenereerde Foto Analyse: {{ this.analysisPicture }}
+</p>
+
+<p *ngIf="this.autoMerk">Het auto merk: {{ this.autoMerk }}</p>

@@ -4,19 +4,19 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-successpagina',
   templateUrl: './successpagina.component.html',
-  styleUrls: ['./successpagina.component.css']
+  styleUrls: ['./successpagina.component.css'],
 })
 export class SuccesspaginaComponent implements OnInit {
+  public analysisPicture: string;
+  public autoMerk: string;
 
-  public message: string;
   constructor(private route: ActivatedRoute) {
-    this.route.queryParams.subscribe(params => {
-      this.message = params['message'];
-      console.log("in query params");
-      console.log(params['message']);
+    this.route.queryParams.subscribe((params) => {
+      this.analysisPicture = params['analysisPicture'];
+      this.autoMerk = params['autoMerk'];
+      console.log('in query params');
+      console.log(params['analysisPicture']);
     });
   }
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }
