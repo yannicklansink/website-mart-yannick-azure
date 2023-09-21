@@ -70,9 +70,9 @@ export class UserFormComponent implements OnInit {
 
     this.http
       .post(
-        'https://apibackendmartyannick.azurewebsites.net/api/v1/users',
+        // 'https://apibackendmartyannick.azurewebsites.net/api/v1/users',
         // 'https://localhost:7056/api/v1/users',
-        // 'https://localhost:2469/api/v1/users',
+        'https://localhost:2469/api/v1/users',
         // JSON.stringify(payload),
         formData
         // {
