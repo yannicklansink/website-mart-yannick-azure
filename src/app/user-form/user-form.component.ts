@@ -81,9 +81,11 @@ export class UserFormComponent implements OnInit {
       )
       .subscribe(
         (response: any) => {
-          this.message = 'Successfully talked to backend';
+          this.message = response.message;
+          console.log(this.message);
+          this.loggingService.logEvent(this.message);
           this.loggingService.logEvent('Nieuw persoon toegevoegd.');
-          this.router.navigate(['/succespagina']);
+          this.router.navigate(['/succespagina'], {queryParams: {message: this.message}});
         },
         (error) => {
           console.log('error, logging to events');
