@@ -7,16 +7,14 @@ import { AuthServiceService } from './services/auth-service.service';
   selector: 'app-root',
   template: `
     <div>Hello {{ value }}</div>
-    <div *ngIf="isAuthenticated">
-      <a routerLink="/userform">Form</a>
-    </div>
+    <!-- <div *ngIf="isAuthenticated"> -->
+    <a routerLink="/userform">Form</a>
+    <!-- </div> -->
     <div></div>
     <div *ngIf="!isAuthenticated">
-      <!-- Show when not authenticated -->
       <button (click)="login()">Login with Azure AD</button>
     </div>
     <div *ngIf="isAuthenticated">
-      <!-- Show when authenticated -->
       <button (click)="logout()">Logout</button>
     </div>
     <router-outlet></router-outlet>
