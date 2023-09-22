@@ -7,7 +7,9 @@ import { AuthServiceService } from './services/auth-service.service';
   selector: 'app-root',
   template: `
     <div>Hello {{ value }}</div>
-    <a routerLink="/userform">Form</a>
+    <div *ngIf="isAuthenticated">
+      <a routerLink="/userform">Form</a>
+    </div>
     <div></div>
     <div *ngIf="!isAuthenticated">
       <!-- Show when not authenticated -->
