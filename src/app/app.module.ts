@@ -21,6 +21,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
       authority:
         'https://login.microsoftonline.com/7ed5147d-c6ee-4886-9e71-4a91ce3087ba',
       redirectUri: 'https://agreeable-meadow-0c593c303.3.azurestaticapps.net',
+      // redirectUri: 'http://localhost:4200',
     },
   });
 }
