@@ -10,7 +10,7 @@ const routes: Routes = [
   {
     path: 'userform',
     component: UserFormComponent,
-    // canActivate: [MsalGuard],
+    canActivate: [MsalGuard],
   },
   { path: 'succespagina', component: SuccesspaginaComponent },
 ];
