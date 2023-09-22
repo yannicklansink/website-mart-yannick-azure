@@ -83,6 +83,7 @@ export class UserFormComponent implements OnInit {
       .subscribe(
         (response: any) => {
           this.analysisPicture = response.analysis;
+          console.log('asdf');
           this.autoMerk = response.autoMerk;
           console.log(this.analysisPicture);
           this.loggingService.logEvent(this.analysisPicture);
@@ -91,7 +92,7 @@ export class UserFormComponent implements OnInit {
             queryParams: {
               analysisPicture: this.analysisPicture,
               autoMerk: this.autoMerk,
-              pictureUrl: response.pictureUrl
+              pictureUrl: response.pictureUrl,
             },
           });
         },
