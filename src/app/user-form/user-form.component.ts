@@ -91,6 +91,7 @@ export class UserFormComponent implements OnInit {
             queryParams: {
               analysisPicture: this.analysisPicture,
               autoMerk: this.autoMerk,
+              pictureUrl: response.pictureUrl
             },
           });
         },

@@ -9,11 +9,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class SuccesspaginaComponent implements OnInit {
   public analysisPicture: string;
   public autoMerk: string;
+  public pictureUrl: string;
 
   constructor(private route: ActivatedRoute) {
     this.route.queryParams.subscribe((params) => {
       this.analysisPicture = params['analysisPicture'];
       this.autoMerk = params['autoMerk'];
+      this.pictureUrl = params['pictureUrl']
       console.log('in query params');
       console.log(params['analysisPicture']);
     });
